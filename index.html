@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LoginMorph Pro — Live Demo | WordPress Login Page Designer by Ahmed Adel</title>
+<meta name="description" content="Try LoginMorph Pro: 23 one-click WordPress login page templates, Arabic RTL, animations, scheduler and security. Interactive demo.">
+<link rel="canonical" href="https://logincraft-pro.vercel.app/">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--wp-blue:#2271b1;--wp-dark:#1d2327;--wp-mid:#50575e;--wp-border:#c3c4c7;--wp-bg:#f0f0f1;--panel-w:370px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;background:var(--wp-bg);color:var(--wp-dark);height:100vh;overflow:hidden;display:flex;flex-direction:column}
+
+/* DEMO TOP BAR */
+.demo-bar{background:linear-gradient(90deg,#1e3a5f,#7c3aed);color:#fff;padding:7px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.demo-bar strong{font-size:13px}
+.demo-bar .info{font-size:11.5px;opacity:.8;margin-left:10px}
+.demo-bar a{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;padding:4px 14px;border-radius:4px;text-decoration:none;font-size:12px;font-weight:500}
+.demo-bar a:hover{background:rgba(255,255,255,.3)}
+
+/* WP ADMIN BAR */
+#wpadminbar{background:#1d2327;height:30px;display:flex;align-items:center;padding:0 8px;flex-shrink:0;gap:0}
+.ab-logo{display:flex;align-items:center;gap:6px;padding:0 10px;color:rgba(255,255,255,.55);font-size:11.5px;border-right:1px solid rgba(255,255,255,.07)}
+.ab-item{padding:0 10px;color:rgba(255,255,255,.55);font-size:11.5px;height:30px;display:flex;align-items:center}
+.ab-badge{margin-left:auto;background:#c0392b;color:#fff;padding:2px 9px;border-radius:3px;font-size:10.5px;font-weight:600;letter-spacing:.04em}
+
+/* LAYOUT */
+#wpwrap{display:flex;flex:1;overflow:hidden}
+#adminmenu{width:148px;background:#1d2327;flex-shrink:0;overflow-y:auto;padding-top:4px}
+.menu-item a{display:flex;align-items:center;gap:7px;padding:7px 10px;color:rgba(240,240,241,.65);text-decoration:none;font-size:11.5px;border-left:3px solid transparent;transition:.15s}
+.menu-item a:hover{background:#2c3338;color:#fff}
+.menu-item.current a{color:#fff;background:#2271b1;border-left-color:#72aee6}
+.menu-sep{height:1px;background:rgba(255,255,255,.07);margin:5px 0}
+
+/* WP CONTENT */
+#wpcontent{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* PAGE HEADER */
+.page-header{padding:8px 18px 0;background:#fff;border-bottom:1px solid var(--wp-border);flex-shrink:0}
+.page-header h1{font-size:17px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.ver-badge{font-size:10.5px;background:#2271b1;color:#fff;padding:2px 8px;border-radius:10px;font-weight:500}
+.tpl-badge{font-size:10.5px;background:#d7f0c2;color:#1d6400;padding:2px 8px;border-radius:10px;font-weight:500}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:7px;padding:9px 18px;background:#f6f7f7;border-bottom:1px solid var(--wp-border);flex-shrink:0}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:5px 13px;border-radius:3px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid;transition:.15s}
+.btn-p{background:#2271b1;color:#fff;border-color:#2271b1}.btn-p:hover{background:#135e96}
+.btn-s{background:#fff;color:#2c3338;border-color:#8c8f94}.btn-s:hover{background:#f0f0f1}
+.save-msg{font-size:12px;color:#00a32a;font-weight:500;opacity:0;transition:opacity .3s;margin-left:4px}
+.save-msg.on{opacity:1}
+
+/* MAIN LAYOUT */
+.main-layout{display:flex;flex:1;overflow:hidden}
+
+/* TABS */
+.tab-bar{display:flex;background:#f6f7f7;border-bottom:1px solid var(--wp-border);overflow-x:auto;flex-shrink:0}
+.tab{padding:8px 11px;font-size:11.5px;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;color:#50575e;white-space:nowrap;transition:.15s}
+.tab:hover{color:#2271b1}
+.tab.on{color:#2271b1;border-bottom-color:#2271b1;font-weight:500}
+
+/* PANEL */
+.panel{width:var(--panel-w);background:#fff;border-right:1px solid var(--wp-border);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0}
+.panel-body{flex:1;overflow-y:auto}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(0,0,0,.18);border-radius:2px}
+
+/* SECTIONS */
+.sec{padding:12px 14px;border-bottom:1px solid #f0f0f1}
+.sec:last-child{border:none}
+.sec h3{font-size:12px;font-weight:600;color:#1d2327;margin-bottom:9px}
+.sec label{display:block;font-size:11.5px;color:#50575e;margin:7px 0 3px;font-weight:500}
+.sec label:first-of-type{margin-top:0}
+input[type=text],input[type=number],input[type=url],select,textarea{width:100%;padding:5px 7px;border:1px solid var(--wp-border);border-radius:3px;font-size:12px;font-family:inherit;background:#fff;color:var(--wp-dark);outline:none}
+input[type=text]:focus,input[type=number]:focus,select:focus{border-color:#2271b1;box-shadow:0 0 0 1px #2271b1}
+input[type=color]{width:40px;height:26px;padding:1px;border:1px solid var(--wp-border);border-radius:3px;cursor:pointer}
+.clr-row{display:flex;align-items:center;gap:7px}
+.clr-row input[type=text]{width:82px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hint{font-size:11px;color:#8c8f94;margin-top:4px;line-height:1.4}
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:3px 0}
+.tog-row label:first-child{font-size:12px;color:#1d2327;margin:0;flex:1}
+.sw{position:relative;display:inline-block;width:32px;height:17px;flex-shrink:0}
+.sw input{opacity:0;width:0;height:0}
+.sl{position:absolute;inset:0;background:#c3c4c7;border-radius:17px;cursor:pointer;transition:.2s}
+.sl::before{content:'';position:absolute;width:11px;height:11px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.sw input:checked+.sl{background:#2271b1}
+.sw input:checked+.sl::before{transform:translateX(15px)}
+.rg{display:flex;gap:10px;flex-wrap:wrap}
+.rg label{display:flex !important;align-items:center;gap:4px;cursor:pointer;margin:0 !important;font-size:12px !important;color:#1d2327 !important;font-weight:400 !important}
+.notice{padding:7px 10px;border-radius:3px;font-size:11.5px;margin-bottom:8px;line-height:1.45}
+.ni{background:#e8f4fd;border-left:3px solid #2271b1;color:#1d4f8e}
+.nw{background:#fff8e1;border-left:3px solid #dba617;color:#7a4f00}
+.no{background:#d7f0c2;border-left:3px solid #1d6400;color:#1d6400}
+
+/* TEMPLATES GRID */
+.tpl-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.tpl-card{border:2px solid #e2e2e2;border-radius:6px;padding:7px;cursor:default;transition:.18s;background:#fff}
+.tpl-card:hover{border-color:#2271b1;box-shadow:0 2px 6px rgba(34,113,177,.12)}
+.tpl-card.act{border-color:#2271b1;background:#f0f7ff}
+.tpl-preview{height:44px;border-radius:3px;display:flex;align-items:center;justify-content:center;margin-bottom:5px}
+.tpl-mock{width:36px;height:30px;border-radius:2px;border:1px solid rgba(255,255,255,.3)}
+.tpl-name{font-size:11.5px;font-weight:600;color:#1d2327;margin-bottom:1px}
+.tpl-desc{font-size:10px;color:#8c8f94;line-height:1.3;margin-bottom:5px}
+.tpl-btn{width:100%;padding:3px;font-size:11px;background:#2271b1;color:#fff;border:none;border-radius:2px;cursor:pointer}
+.tpl-btn:hover{background:#135e96}
+.act-dot{display:inline-block;width:6px;height:6px;background:#00a32a;border-radius:50%;margin-left:4px;vertical-align:middle}
+
+/* LANG GRID */
+.lang-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.lang-card{border:1px solid var(--wp-border);border-radius:5px;padding:7px 3px;text-align:center;background:#fff;transition:.15s}
+.lang-card:hover{border-color:#2271b1}
+.lf{font-size:20px;line-height:1;margin-bottom:3px}
+.ln{font-size:10.5px;font-weight:600;margin-bottom:2px}
+.ld{font-size:9px;padding:1px 4px;border-radius:7px;font-weight:600;margin-bottom:4px;display:inline-block}
+.ld.ltr{background:#e8f4fd;color:#1d4f8e}
+.ld.rtl{background:#fff8e1;color:#7a4f00}
+.lang-card button{width:100%;font-size:10px;padding:2px 0;background:#2271b1;color:#fff;border:none;border-radius:2px;cursor:pointer}
+
+/* PREVIEW */
+.preview-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#e9eaec}
+.preview-hdr{padding:7px 14px;background:#f6f7f7;border-bottom:1px solid var(--wp-border);display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:500;flex-shrink:0}
+.preview-hdr span.sub{font-size:11px;color:#8c8f94;font-weight:400}
+.preview-body{flex:1;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+
+/* LOGIN PAGE */
+#lpc{width:100%;height:100%;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:background .3s}
+.lp-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;padding:20px 0;width:100%}
+.lp-logo{margin-bottom:14px;text-align:center}
+.lp-logo-wp{width:52px;height:52px;background:#2271b1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;margin:0 auto}
+.lp-logo img{max-height:60px;max-width:160px;object-fit:contain}
+.lp-welcome{text-align:center;font-size:18px;font-weight:600;margin-bottom:14px;text-shadow:0 1px 3px rgba(0,0,0,.18)}
+.lp-form{width:300px;padding:22px;background:#fff;border-radius:4px;box-shadow:0 4px 20px rgba(0,0,0,.14);transition:background .25s,border-radius .25s,width .25s}
+.lp-field{margin-bottom:12px}
+.lp-field label{display:block;font-size:12.5px;font-weight:500;margin-bottom:4px}
+.lp-field input{width:100%;padding:6px 9px;border:1px solid #8c8f94;border-radius:3px;font-size:12.5px;background:#fff;transition:border-color .2s}
+.lp-field input:focus{outline:none}
+.lp-remme{display:flex;align-items:center;gap:5px;font-size:12px;margin-bottom:12px}
+.lp-submit{width:100%;padding:8px;border:none;border-radius:3px;font-size:12.5px;font-weight:500;cursor:pointer;transition:background .15s}
+.lp-links{display:flex;justify-content:center;gap:14px;margin-top:10px;font-size:11.5px}
+.lp-links a{text-decoration:none;transition:color .15s}
+.lp-footer-txt{font-size:11px;margin-top:8px;text-align:center;opacity:.7}
+.lp-brand{font-size:10px;opacity:.4;text-align:center;margin-top:8px;color:#fff}
+
+/* TAB PANES */
+.pane{display:none}
+.pane.on{display:block}
+</style>
+</head>
+<body>
+
+<!-- Demo bar -->
+<div class="demo-bar">
+  <div>
+    <strong>LoginMorph Pro</strong>
+    <span class="info">Interactive Demo · by Ahmed Adel · <span id="active-bar-txt">Minimal active</span></span>
+  </div>
+  <a href="https://ahmedadel.my.canva.site/ahmed" target="_blank" rel="noopener">Get the Plugin →</a>
+</div>
+
+<!-- WP Admin bar -->
+<div id="wpadminbar">
+  <div class="ab-logo">
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="white" opacity=".6"><path d="M10 1.8A8.2 8.2 0 1 0 18.2 10 8.21 8.21 0 0 0 10 1.8Zm0 1.4a6.78 6.78 0 0 1 2.73.57L4.38 12.45A6.81 6.81 0 0 1 10 3.2Zm0 13.6a6.8 6.8 0 0 1-2.86-.63l8.32-8.32A6.81 6.81 0 0 1 10 16.8Z"/></svg>
+    Demo Site
+  </div>
+  <span class="ab-item">Dashboard</span>
+  <span class="ab-item">+ New</span>
+  <span class="ab-badge">DEMO — nothing is saved</span>
+</div>
+
+<div id="wpwrap">
+
+  <!-- WP Sidebar -->
+  <div id="adminmenu">
+    <ul style="list-style:none">
+      <li class="menu-item"><a href="#">📊 Dashboard</a></li>
+      <li class="menu-sep"></li>
+      <li class="menu-item"><a href="#">📝 Posts</a></li>
+      <li class="menu-item"><a href="#">🖼 Media</a></li>
+      <li class="menu-item"><a href="#">📄 Pages</a></li>
+      <li class="menu-sep"></li>
+      <li class="menu-item"><a href="#">🎨 Appearance</a></li>
+      <li class="menu-item"><a href="#">🔌 Plugins</a></li>
+      <li class="menu-sep"></li>
+      <li class="menu-item current"><a href="#">⚙️ Settings</a></li>
+    </ul>
+  </div>
+
+  <div id="wpcontent">
+
+    <!-- Plugin page header -->
+    <div class="page-header">
+      <h1>
+        LoginMorph Pro
+        <span class="ver-badge">v1.0.0</span>
+        <span class="tpl-badge" id="hdr-tpl">✦ Minimal active</span>
+      </h1>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <button class="btn btn-p" onclick="saveSettings()">💾 Save Changes</button>
+      <button class="btn btn-s" onclick="resetAll()">↺ Reset</button>
+      <span class="save-msg" id="save-msg">Settings saved!</span>
+    </div>
+
+    <!-- Main layout -->
+    <div class="main-layout">
+
+      <!-- ══ SETTINGS PANEL ══ -->
+      <div class="panel">
+        <div class="tab-bar" id="tb">
+          <button class="tab on"  data-t="templates">🎨 Templates</button>
+          <button class="tab"     data-t="background">Background</button>
+          <button class="tab"     data-t="form">Form</button>
+          <button class="tab"     data-t="colors">Colors</button>
+          <button class="tab"     data-t="messages">Messages</button>
+          <button class="tab"     data-t="language">🌐 Language</button>
+          <button class="tab"     data-t="security">🔐 Security</button>
+        </div>
+
+        <div class="panel-body">
+
+          <!-- TEMPLATES -->
+          <div class="pane on" id="pane-templates">
+            <div class="sec">
+              <h3>Pre-built Templates</h3>
+              <p class="hint" style="margin-bottom:9px">Click Apply — full redesign in one click.</p>
+              <div class="tpl-grid" id="tpl-grid"></div>
+            </div>
+          </div>
+
+          <!-- BACKGROUND -->
+          <div class="pane" id="pane-background">
+            <div class="sec">
+              <h3>Background Type</h3>
+              <div class="rg">
+                <label><input type="radio" name="bg_type" value="color"    onchange="applyAll()"> Solid Color</label>
+                <label><input type="radio" name="bg_type" value="gradient" onchange="applyAll()"> Gradient</label>
+                <label><input type="radio" name="bg_type" value="image"    onchange="applyAll()"> Image URL</label>
+              </div>
+            </div>
+            <div class="sec" id="s-color">
+              <label>Background Color</label>
+              <div class="clr-row">
+                <input type="color" id="bg_color" value="#f0f0f1" oninput="csync('bg_color')">
+                <input type="text"  id="bg_color_t" value="#f0f0f1" oninput="ctsync('bg_color')">
+              </div>
+            </div>
+            <div class="sec" id="s-grad" style="display:none">
+              <label>From</label>
+              <div class="clr-row">
+                <input type="color" id="bg_gf" value="#667eea" oninput="csync('bg_gf')">
+                <input type="text"  id="bg_gf_t" value="#667eea" oninput="ctsync('bg_gf')">
+              </div>
+              <label>To</label>
+              <div class="clr-row">
+                <input type="color" id="bg_gt" value="#764ba2" oninput="csync('bg_gt')">
+                <input type="text"  id="bg_gt_t" value="#764ba2" oninput="ctsync('bg_gt')">
+              </div>
+              <label>Angle (°)</label>
+              <input type="number" id="bg_ga" value="135" min="0" max="360" oninput="applyAll()" style="width:70px">
+            </div>
+            <div class="sec" id="s-img" style="display:none">
+              <label>Image URL</label>
+              <input type="url" id="bg_img" placeholder="https://..." oninput="applyAll()">
+              <p class="hint">Paste any direct image URL</p>
+            </div>
+          </div>
+
+          <!-- FORM -->
+          <div class="pane" id="pane-form">
+            <div class="sec">
+              <h3>Form Box</h3>
+              <label>Background</label>
+              <div class="clr-row">
+                <input type="color" id="form_bg" value="#ffffff" oninput="csync('form_bg')">
+                <input type="text"  id="form_bg_t" value="#ffffff" oninput="ctsync('form_bg')">
+              </div>
+              <div class="row2" style="margin-top:9px">
+                <div><label>Width (px)</label><input type="number" id="form_w" value="300" min="200" max="580" oninput="applyAll()"></div>
+                <div><label>Border Radius</label><input type="number" id="form_r" value="4" min="0" max="40" oninput="applyAll()"></div>
+              </div>
+            </div>
+            <div class="sec">
+              <h3>Text Alignment</h3>
+              <div class="rg">
+                <label><input type="radio" name="ta" value="left"   onchange="applyAll()" checked> Left</label>
+                <label><input type="radio" name="ta" value="center" onchange="applyAll()"> Center</label>
+                <label><input type="radio" name="ta" value="right"  onchange="applyAll()"> Right</label>
+              </div>
+            </div>
+            <div class="sec">
+              <h3>Logo</h3>
+              <label>Logo Image URL (optional)</label>
+              <input type="url" id="logo_url" placeholder="https://..." oninput="applyAll()">
+              <p class="hint">Leave empty to use the default WordPress "W" icon</p>
+              <div class="row2" style="margin-top:8px">
+                <div><label>Width (px)</label><input type="number" id="logo_w" value="60" min="20" max="200" oninput="applyAll()"></div>
+                <div><label>Height (px)</label><input type="number" id="logo_h" value="60" min="20" max="200" oninput="applyAll()"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- COLORS -->
+          <div class="pane" id="pane-colors">
+            <div class="sec">
+              <h3>Labels</h3>
+              <label>Color</label>
+              <div class="clr-row"><input type="color" id="lbl_c" value="#3c434a" oninput="csync('lbl_c')"><input type="text" id="lbl_c_t" value="#3c434a" oninput="ctsync('lbl_c')"></div>
+            </div>
+            <div class="sec">
+              <h3>Input Fields</h3>
+              <label>Border Color</label>
+              <div class="clr-row"><input type="color" id="inp_b" value="#8c8f94" oninput="csync('inp_b')"><input type="text" id="inp_b_t" value="#8c8f94" oninput="ctsync('inp_b')"></div>
+              <label>Focus Color</label>
+              <div class="clr-row"><input type="color" id="inp_f" value="#2271b1" oninput="csync('inp_f')"><input type="text" id="inp_f_t" value="#2271b1" oninput="ctsync('inp_f')"></div>
+            </div>
+            <div class="sec">
+              <h3>Submit Button</h3>
+              <label>Background</label>
+              <div class="clr-row"><input type="color" id="btn_bg" value="#2271b1" oninput="csync('btn_bg')"><input type="text" id="btn_bg_t" value="#2271b1" oninput="ctsync('btn_bg')"></div>
+              <label>Text Color</label>
+              <div class="clr-row"><input type="color" id="btn_tc" value="#ffffff" oninput="csync('btn_tc')"><input type="text" id="btn_tc_t" value="#ffffff" oninput="ctsync('btn_tc')"></div>
+              <label>Border Radius (px)</label>
+              <input type="number" id="btn_r" value="3" min="0" max="40" oninput="applyAll()" style="width:70px">
+            </div>
+            <div class="sec">
+              <h3>Links</h3>
+              <label>Link Color</label>
+              <div class="clr-row"><input type="color" id="lnk_c" value="#50575e" oninput="csync('lnk_c')"><input type="text" id="lnk_c_t" value="#50575e" oninput="ctsync('lnk_c')"></div>
+            </div>
+          </div>
+
+          <!-- MESSAGES -->
+          <div class="pane" id="pane-messages">
+            <div class="sec">
+              <h3>Welcome Message</h3>
+              <input type="text" id="wm" placeholder="Welcome to Company Portal" oninput="applyAll()">
+              <div class="row2" style="margin-top:8px">
+                <div>
+                  <label>Color</label>
+                  <div class="clr-row"><input type="color" id="wm_c" value="#ffffff" oninput="csync('wm_c')"><input type="text" id="wm_c_t" value="#ffffff" oninput="ctsync('wm_c')"></div>
+                </div>
+                <div><label>Size (px)</label><input type="number" id="wm_s" value="20" min="14" max="48" oninput="applyAll()"></div>
+              </div>
+            </div>
+            <div class="sec">
+              <h3>Custom Field Labels</h3>
+              <label>Username label</label>
+              <input type="text" id="ll_u" placeholder="Username or Email" oninput="applyAll()">
+              <label>Password label</label>
+              <input type="text" id="ll_p" placeholder="Password" oninput="applyAll()">
+              <label>Button text</label>
+              <input type="text" id="ll_b" placeholder="Log In" oninput="applyAll()">
+              <label>Remember Me label</label>
+              <input type="text" id="ll_r" placeholder="Remember Me" oninput="applyAll()">
+            </div>
+            <div class="sec">
+              <h3>Footer Text</h3>
+              <input type="text" id="ft" placeholder="© 2025 My Company" oninput="applyAll()">
+            </div>
+          </div>
+
+          <!-- LANGUAGE -->
+          <div class="pane" id="pane-language">
+            <div class="sec">
+              <h3>Quick Language Switch</h3>
+              <p class="hint" style="margin-bottom:9px">Click Apply — sets direction, field labels, and welcome text automatically.</p>
+              <div class="lang-grid">
+                <div class="lang-card">
+                  <div class="lf">🇬🇧</div>
+                  <div class="ln">English</div>
+                  <div><span class="ld ltr">LTR</span></div>
+                  <button onclick="applyLang('en')">Apply</button>
+                </div>
+                <div class="lang-card">
+                  <div class="lf">🇸🇦</div>
+                  <div class="ln">العربية</div>
+                  <div><span class="ld rtl">RTL</span></div>
+                  <button onclick="applyLang('ar')">تطبيق</button>
+                </div>
+                <div class="lang-card">
+                  <div class="lf">🇪🇸</div>
+                  <div class="ln">Español</div>
+                  <div><span class="ld ltr">LTR</span></div>
+                  <button onclick="applyLang('es')">Aplicar</button>
+                </div>
+                <div class="lang-card">
+                  <div class="lf">🇫🇷</div>
+                  <div class="ln">Français</div>
+                  <div><span class="ld ltr">LTR</span></div>
+                  <button onclick="applyLang('fr')">Appliquer</button>
+                </div>
+                <div class="lang-card">
+                  <div class="lf">🇩🇪</div>
+                  <div class="ln">Deutsch</div>
+                  <div><span class="ld ltr">LTR</span></div>
+                  <button onclick="applyLang('de')">Anwenden</button>
+                </div>
+              </div>
+              <div class="notice ni" style="margin-top:10px">🇸🇦 Arabic automatically enables RTL layout and Arabic field labels. Click 🇬🇧 English to reset back to LTR.</div>
+            </div>
+          </div>
+
+          <!-- SECURITY -->
+          <div class="pane" id="pane-security">
+            <div class="sec">
+              <div class="notice ni">Security features run server-side in the real plugin. This demo shows the settings UI.</div>
+              <h3>Limit Login Attempts</h3>
+              <div class="tog-row">
+                <label>Enable</label>
+                <label class="sw"><input type="checkbox" checked><span class="sl"></span></label>
+              </div>
+              <div class="row2" style="margin-top:7px">
+                <div><label>Max Attempts</label><input type="number" value="5" min="1" max="20"></div>
+                <div><label>Lockout (min)</label><input type="number" value="30" min="5" max="1440"></div>
+              </div>
+            </div>
+            <div class="sec">
+              <h3>Hide Login URL</h3>
+              <div class="tog-row">
+                <label>Enable Custom URL</label>
+                <label class="sw"><input type="checkbox"><span class="sl"></span></label>
+              </div>
+              <label style="margin-top:8px">Custom slug</label>
+              <input type="text" value="my-login" placeholder="my-login">
+              <div class="notice nw" style="margin-top:7px">⚠️ Bookmark your custom URL before enabling on a real site.</div>
+            </div>
+            <div class="sec">
+              <h3>Math CAPTCHA</h3>
+              <div class="tog-row">
+                <label>Enable</label>
+                <label class="sw"><input type="checkbox"><span class="sl"></span></label>
+              </div>
+              <label style="margin-top:7px">Question</label>
+              <input type="text" value="What is 3 + 4?">
+              <label>Answer</label>
+              <input type="text" value="7" style="width:70px">
+            </div>
+          </div>
+
+        </div><!-- panel-body -->
+      </div><!-- panel -->
+
+      <!-- ══ PREVIEW PANE ══ -->
+      <div class="preview-wrap">
+        <div class="preview-hdr">
+          <span>Live Preview</span>
+          <span class="sub">Demo: updates instantly. In the real plugin the preview refreshes when you save.</span>
+        </div>
+        <div class="preview-body">
+          <div id="lpc">
+            <div class="lp-inner" id="lpi">
+              <div class="lp-logo" id="lp-logo"><div class="lp-logo-wp" id="lp-logo-wp">W</div></div>
+              <div class="lp-welcome" id="lp-wm" style="display:none"></div>
+              <div class="lp-form" id="lp-form">
+                <div class="lp-field">
+                  <label id="lp-lu">Username or Email Address</label>
+                  <input type="text" id="lp-ui" placeholder="">
+                </div>
+                <div class="lp-field">
+                  <label id="lp-lp">Password</label>
+                  <input type="password" id="lp-pi" placeholder="">
+                </div>
+                <div class="lp-remme">
+                  <input type="checkbox" id="lp-rm-cb"> <label for="lp-rm-cb" id="lp-rml" style="cursor:pointer;font-size:12px;margin:0">Remember Me</label>
+                </div>
+                <button class="lp-submit" id="lp-sub">Log In</button>
+              </div>
+              <div class="lp-links" id="lp-links">
+                <a href="#" id="lp-la" style="color:#50575e">Lost your password?</a>
+                <a href="#" id="lp-lb" style="color:#50575e">← Back to site</a>
+              </div>
+              <div class="lp-footer-txt" id="lp-ft"></div>
+              <div class="lp-brand">Powered by Ahmed Adel</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- main-layout -->
+  </div><!-- wpcontent -->
+</div><!-- wpwrap -->
+
+<script>
+/* ─── TEMPLATES ─── */
+var T=[
+  {k:'minimal',   n:'Minimal',       i:'✦', d:'Pure white. Clean.',          bg:'color', bc:'#f8fafc',  gf:'',        gt:'',        ga:135, bi:'',
+   fb:'#ffffff',fr:2, lc:'#374151',ib:'#d1d5db',ifc:'#111827',bb:'#111827',bt:'#ffffff',br:2,lk:'#6b7280',wc:'#374151'},
+  {k:'dark',      n:'Dark Mode',     i:'🌙',d:'Deep dark, red accent.',       bg:'color', bc:'#1a1a2e',  gf:'',        gt:'',        ga:135, bi:'',
+   fb:'#16213e',fr:12,lc:'#a8b2d8',ib:'#334155',ifc:'#e94560',bb:'#e94560',bt:'#ffffff',br:6, lk:'#a8b2d8',wc:'#e2e8f0'},
+  {k:'glass',     n:'Glass UI',      i:'💎',d:'Frosted glass gradient.',      bg:'gradient',bc:'#667eea',gf:'#667eea', gt:'#764ba2',ga:135,bi:'',
+   fb:'rgba(255,255,255,0.13)',fr:20,lc:'#ffffff',ib:'rgba(255,255,255,0.45)',ifc:'#ffffff',bb:'rgba(255,255,255,0.25)',bt:'#ffffff',br:12,lk:'rgba(255,255,255,0.75)',wc:'#ffffff'},
+  {k:'corporate', n:'Corporate',     i:'🏢',d:'Professional portal.',         bg:'gradient',bc:'#1e3a5f',gf:'#1e3a5f',gt:'#2d6a9f',ga:160,bi:'',
+   fb:'#ffffff',fr:0, lc:'#1e3a5f',ib:'#ced4da',ifc:'#1e3a5f',bb:'#1e3a5f',bt:'#ffffff',br:0, lk:'#2d6a9f',wc:'#ffffff'},
+  {k:'neon',      n:'Neon/Cyber',    i:'⚡',d:'Glowing green on black.',      bg:'color', bc:'#0d0d0d',  gf:'',        gt:'',        ga:135, bi:'',
+   fb:'#111111',fr:4, lc:'#00ff9f',ib:'#00ff9f',ifc:'#00e5ff',bb:'transparent',bt:'#00ff9f',br:0,lk:'#00bcd4',wc:'#00ff9f'},
+  {k:'sunset',    n:'Sunset',        i:'🌅',d:'Warm orange gradient.',        bg:'gradient',bc:'#f7971e',gf:'#f7971e',gt:'#ffd200',ga:135,bi:'',
+   fb:'#ffffff',fr:16,lc:'#7c4a00',ib:'#fbbf24',ifc:'#f7971e',bb:'#f7971e',bt:'#ffffff',br:8, lk:'#92400e',wc:'#ffffff'},
+  {k:'medical',   n:'Medical',       i:'🫀',d:'Clean teal. For clinics.',     bg:'gradient',bc:'#e0f7fa',gf:'#e0f7fa',gt:'#b2ebf2',ga:180,bi:'',
+   fb:'#ffffff',fr:8, lc:'#00695c',ib:'#80cbc4',ifc:'#00897b',bb:'#00897b',bt:'#ffffff',br:4, lk:'#00897b',wc:'#004d40'},
+  {k:'education', n:'Education',     i:'🎓',d:'Deep indigo. LMS & schools.',  bg:'gradient',bc:'#3f51b5',gf:'#3f51b5',gt:'#1a237e',ga:145,bi:'',
+   fb:'#ffffff',fr:6, lc:'#1a237e',ib:'#9fa8da',ifc:'#3f51b5',bb:'#3f51b5',bt:'#ffffff',br:4, lk:'#3f51b5',wc:'#ffffff'},
+  {k:'realestate',n:'Real Estate',   i:'🏠',d:'Luxury dark gold.',            bg:'gradient',bc:'#1a1209',gf:'#1a1209',gt:'#2c1f0e',ga:160,bi:'',
+   fb:'#2c1f0e',fr:4, lc:'#d4af37',ib:'#d4af37',ifc:'#f5c842',bb:'#d4af37',bt:'#1a1209',br:2, lk:'#d4af37',wc:'#d4af37'},
+  {k:'candy',     n:'Candy Pop',     i:'🍭',d:'Pink-purple. Fun & lifestyle.', bg:'gradient',bc:'#ff6b9d',gf:'#ff6b9d',gt:'#c44dff',ga:135,bi:'',
+   fb:'#ffffff',fr:20,lc:'#7c2d84',ib:'#f8a8c8',ifc:'#ff6b9d',bb:'#ff6b9d',bt:'#ffffff',br:20,lk:'#c44dff',wc:'#ffffff'},
+  {k:'nature',     n:'Nature',        i:'🌿',d:'Deep green. Calm & organic.',  bg:'gradient',bc:'#134e1a',gf:'#134e1a',gt:'#2d6a4f',ga:160,bi:'',
+   fb:'#f0fff4',fr:12,lc:'#134e1a',ib:'#86efac',ifc:'#16a34a',bb:'#16a34a',bt:'#ffffff',br:8, lk:'#15803d',wc:'#ffffff'},
+  {k:'ecommerce', n:'E-Commerce',    i:'🛒',d:'Orange-red store style.',      bg:'color', bc:'#f5f5f5',  gf:'',        gt:'',        ga:135, bi:'',
+   fb:'#ffffff',fr:4, lc:'#333333',ib:'#dddddd',ifc:'#e44d26',bb:'#e44d26',bt:'#ffffff',br:3, lk:'#e44d26',wc:'#333333'},
+  {k:'midnight',  n:'Midnight Luxury',i:'✨',d:'Midnight purple with gold.',   bg:'gradient',bc:'#0d0221',gf:'#0d0221',gt:'#1a0533',ga:135,bi:'',
+   fb:'rgba(26,5,51,0.9)',fr:16,lc:'#ffd700',ib:'rgba(255,215,0,0.4)',ifc:'#ffd700',bb:'#ffd700',bt:'#0d0221',br:8,lk:'rgba(255,215,0,0.7)',wc:'#ffd700'},
+  {k:'ocean',     n:'Ocean Depth',   i:'🌊',d:'Deep blues. Calm & trusted.',  bg:'gradient',bc:'#03045e',gf:'#03045e',gt:'#0077b6',ga:160,bi:'',
+   fb:'rgba(0,119,182,0.3)',fr:16,lc:'#caf0f8',ib:'rgba(144,224,239,0.5)',ifc:'#00b4d8',bb:'#00b4d8',bt:'#03045e',br:8,lk:'#90e0ef',wc:'#caf0f8'},
+  {k:'arabic_green',n:'عربي - أخضر', i:'🌿',d:'Arabic Green RTL.',             bg:'gradient',bc:'#064e3b',gf:'#064e3b',gt:'#065f46',ga:150,bi:'',
+   fb:'#f0fdf4',fr:8, lc:'#064e3b',ib:'#6ee7b7',ifc:'#059669',bb:'#059669',bt:'#ffffff',br:4, lk:'#059669',wc:'#d1fae5',
+   rtl:true,wm:'مرحباً بك في البوابة الإلكترونية',lu:'اسم المستخدم أو البريد الإلكتروني',lp:'كلمة المرور',lb:'دخول',lr:'تذكرني'},
+  {k:'spanish_ocean',n:'Español - Océano',i:'🌊',d:'Mediterranean blue.',       bg:'gradient',bc:'#0077b6',gf:'#0077b6',gt:'#023e8a',ga:160,bi:'',
+   fb:'#ffffff',fr:8, lc:'#023e8a',ib:'#90e0ef',ifc:'#0077b6',bb:'#0077b6',bt:'#ffffff',br:6, lk:'#0077b6',wc:'#ffffff',
+   wm:'Bienvenido — Inicia sesión',lu:'Usuario o correo electrónico',lp:'Contraseña',lb:'Entrar',lr:'Recuérdame'},
+  {k:'french_bleu',n:'Français - Bleu',i:'🔵',d:'Institutional French blue.',   bg:'gradient',bc:'#002395',gf:'#002395',gt:'#003f9e',ga:150,bi:'',
+   fb:'#ffffff',fr:4, lc:'#002395',ib:'#7b9fd4',ifc:'#002395',bb:'#ed2939',bt:'#ffffff',br:3, lk:'#002395',wc:'#ffffff',
+   wm:'Bienvenue — Veuillez vous connecter',lu:'Identifiant ou e-mail',lp:'Mot de passe',lb:'Connexion',lr:'Se souvenir de moi'},
+  {k:'german_tech',n:'Deutsch - Technisch',i:'⚙️',d:'Dark blue & silver.',       bg:'gradient',bc:'#0d1b2a',gf:'#0d1b2a',gt:'#1b2838',ga:140,bi:'',
+   fb:'#1b2838',fr:4, lc:'#c7d5e0',ib:'#4a6d8c',ifc:'#00aaff',bb:'#00aaff',bt:'#0d1b2a',br:2, lk:'#66c0f4',wc:'#c7d5e0',
+   wm:'Willkommen — Bitte anmelden',lu:'Benutzername oder E-Mail',lp:'Passwort',lb:'Einloggen',lr:'Angemeldet bleiben'},
+  {k:'arabic_dark',n:'عربي - داكن', i:'🌙',d:'Arabic Dark RTL.',              bg:'gradient',bc:'#0a1628',gf:'#0a1628',gt:'#1a3a5c',ga:135,bi:'',
+   fb:'#112240',fr:10,lc:'#64b5f6',ib:'#1565c0',ifc:'#42a5f5',bb:'#1565c0',bt:'#ffffff',br:6, lk:'#64b5f6',wc:'#90caf9',
+   rtl:true,wm:'مرحباً بك — الرجاء تسجيل الدخول',lu:'اسم المستخدم أو البريد الإلكتروني',lp:'كلمة المرور',lb:'تسجيل الدخول',lr:'تذكرني'},
+  {k:'arabic_light',n:'عربي - فاتح',i:'☀️',d:'Arabic Light RTL.',             bg:'gradient',bc:'#f0f4ff',gf:'#f0f4ff',gt:'#dbe8ff',ga:160,bi:'',
+   fb:'#ffffff',fr:8, lc:'#1e3a8a',ib:'#93c5fd',ifc:'#2563eb',bb:'#2563eb',bt:'#ffffff',br:6, lk:'#2563eb',wc:'#1e3a8a',
+   rtl:true,wm:'أهلاً وسهلاً — تسجيل الدخول',lu:'اسم المستخدم أو البريد الإلكتروني',lp:'كلمة المرور',lb:'تسجيل الدخول',lr:'تذكرني'},
+  {k:'spanish',   n:'Español',       i:'🇪🇸',d:'Vibrant red. Latin energy.',   bg:'gradient',bc:'#c0392b',gf:'#c0392b',gt:'#e74c3c',ga:145,bi:'',
+   fb:'#ffffff',fr:6, lc:'#7b0d0d',ib:'#e74c3c',ifc:'#c0392b',bb:'#c0392b',bt:'#ffffff',br:4, lk:'#c0392b',wc:'#ffffff',
+   wm:'Bienvenido — Inicia sesión',lu:'Usuario o correo electrónico',lp:'Contraseña',lb:'Iniciar sesión',lr:'Recuérdame'},
+  {k:'french',    n:'Français',      i:'🇫🇷',d:'Parisian gold on black.',      bg:'color',  bc:'#1a1a1a',  gf:'',        gt:'',        ga:135, bi:'',
+   fb:'#2a2a2a',fr:2, lc:'#d4af37',ib:'#d4af37',ifc:'#f5c842',bb:'#d4af37',bt:'#1a1a1a',br:0, lk:'#d4af37',wc:'#d4af37',
+   wm:'Bienvenue — Veuillez vous connecter',lu:'Identifiant ou e-mail',lp:'Mot de passe',lb:'Se connecter',lr:'Se souvenir de moi'},
+  {k:'german',    n:'Deutsch',       i:'🇩🇪',d:'Bauhaus precision.',           bg:'color',  bc:'#2b2b2b',  gf:'',        gt:'',        ga:135, bi:'',
+   fb:'#ffffff',fr:0, lc:'#1a1a1a',ib:'#999999',ifc:'#dd0000',bb:'#1a1a1a',bt:'#ffffff',br:0, lk:'#555555',wc:'#ffffff',
+   wm:'Willkommen — Bitte anmelden',lu:'Benutzername oder E-Mail',lp:'Passwort',lb:'Anmelden',lr:'Angemeldet bleiben'},
+];
+
+/* ─── STATE ─── */
+var S={bg:'color',bc:'#f8fafc',gf:'#667eea',gt:'#764ba2',ga:135,bi:'',
+  fb:'#ffffff',fw:300,fr:2,ta:'left',
+  lc:'#374151',ib:'#d1d5db',ifc:'#111827',bb:'#111827',bt:'#ffffff',br:2,lk:'#6b7280',
+  wm:'',wc:'#374151',ws:20,
+  lu:'',lp:'',lb:'',lr:'',ft:'',rtl:false,
+  logo:'',lw:60,lh:60,active:'minimal'};
+
+/* ─── BUILD TEMPLATE GRID ─── */
+function buildGrid(){
+  var g=document.getElementById('tpl-grid');g.innerHTML='';
+  T.forEach(function(t){
+    var pbg=t.bg==='gradient'?'linear-gradient('+t.ga+'deg,'+t.gf+','+t.gt+')':t.bc;
+    var c=document.createElement('div');
+    c.className='tpl-card'+(S.active===t.k?' act':'');
+    c.innerHTML='<div class="tpl-preview" style="background:'+pbg+'"><div class="tpl-mock" style="background:'+t.fb+'"></div></div>'+
+      '<div class="tpl-name">'+t.i+' '+t.n+(S.active===t.k?'<span class="act-dot"></span>':'')+'</div>'+
+      '<div class="tpl-desc">'+t.d+'</div>'+
+      '<button class="tpl-btn" onclick="applyTpl(\''+t.k+'\')">Apply</button>';
+    g.appendChild(c);
+  });
+}
+
+/* ─── APPLY TEMPLATE ─── */
+function applyTpl(key){
+  var t=T.find(function(x){return x.k===key;});if(!t)return;
+  S.bg=t.bg;S.bc=t.bc;S.gf=t.gf||'#667eea';S.gt=t.gt||'#764ba2';S.ga=t.ga||135;S.bi=t.bi||'';
+  S.fb=t.fb;S.fw=300;S.fr=t.fr;
+  S.lc=t.lc;S.ib=t.ib;S.ifc=t.ifc;S.bb=t.bb;S.bt=t.bt;S.br=typeof t.br!=='undefined'?t.br:3;S.lk=t.lk;
+  S.wc=t.wc||'#ffffff';S.active=key;
+  S.rtl=t.rtl||false;S.ta=S.rtl?'right':'left';
+  S.wm=t.wm||'';S.lu=t.lu||'';S.lp=t.lp||'';S.lb=t.lb||'';S.lr=t.lr||'';
+  syncInputs();renderPreview();buildGrid();
+  var lbl=t.i+' '+t.n+' active';
+  document.getElementById('hdr-tpl').textContent=lbl;
+  document.getElementById('active-bar-txt').textContent=t.n+' active';
+}
+
+/* ─── SYNC INPUTS ← STATE ─── */
+function syncInputs(){
+  sc('bg_color',S.bc);sc('bg_gf',S.gf);sc('bg_gt',S.gt);
+  sv('bg_ga',S.ga);sv('bg_img',S.bi||'');
+  sc('form_bg',S.fb);sv('form_w',S.fw);sv('form_r',S.fr);
+  sc('lbl_c',S.lc);sc('inp_b',S.ib);sc('inp_f',S.ifc);
+  sc('btn_bg',S.bb);sc('btn_tc',S.bt);sv('btn_r',S.br);
+  sc('lnk_c',S.lk);sc('wm_c',S.wc);
+  sv('wm',S.wm);sv('wm_s',S.ws||20);
+  sv('ll_u',S.lu||'');sv('ll_p',S.lp||'');sv('ll_b',S.lb||'');sv('ll_r',S.lr||'');sv('ft',S.ft||'');
+  sv('logo_url',S.logo||'');sv('logo_w',S.lw);sv('logo_h',S.lh);
+  document.querySelectorAll('input[name="bg_type"]').forEach(function(r){r.checked=r.value===S.bg;});
+  document.querySelectorAll('input[name="ta"]').forEach(function(r){r.checked=r.value===S.ta;});
+  updateBgPanels();
+}
+function sc(id,v){var e=document.getElementById(id),et=document.getElementById(id+'_t');if(e&&/^#/.test(v))e.value=v;if(et)et.value=v||'';}
+function sv(id,v){var e=document.getElementById(id);if(e)e.value=v!==undefined?v:'';}
+
+/* ─── READ FORM → STATE ─── */
+function readForm(){
+  S.bg=rv('bg_type')||'color';S.bc=gv('bg_color');S.gf=gv('bg_gf');S.gt=gv('bg_gt');
+  S.ga=gv('bg_ga')||135;S.bi=gv('bg_img')||'';
+  S.fb=gv('form_bg');S.fw=parseInt(gv('form_w'))||300;S.fr=parseInt(gv('form_r'))||4;
+  S.ta=rv('ta')||'left';
+  S.lc=gv('lbl_c');S.ib=gv('inp_b');S.ifc=gv('inp_f');
+  S.bb=gv('btn_bg');S.bt=gv('btn_tc');S.br=parseInt(gv('btn_r'))||3;S.lk=gv('lnk_c');
+  S.wm=gv('wm')||'';S.wc=gv('wm_c');S.ws=parseInt(gv('wm_s'))||20;
+  S.lu=gv('ll_u')||'';S.lp=gv('ll_p')||'';S.lb=gv('ll_b')||'';S.lr=gv('ll_r')||'';S.ft=gv('ft')||'';
+  S.logo=gv('logo_url')||'';S.lw=parseInt(gv('logo_w'))||60;S.lh=parseInt(gv('logo_h'))||60;
+}
+function gv(id){var e=document.getElementById(id);return e?e.value:'';}
+function rv(name){var e=document.querySelector('input[name="'+name+'"]:checked');return e?e.value:'';}
+
+/* ─── RENDER PREVIEW ─── */
+function renderPreview(){
+  var c=document.getElementById('lpc'),form=document.getElementById('lp-form');
+  var wm=document.getElementById('lp-wm'),lpi=document.getElementById('lpi');
+  var logoWp=document.getElementById('lp-logo-wp'),logoWrap=document.getElementById('lp-logo');
+
+  // Background
+  if(S.bg==='gradient')c.style.background='linear-gradient('+S.ga+'deg,'+S.gf+','+S.gt+')';
+  else if(S.bg==='image'&&S.bi){c.style.background=S.bc;c.style.backgroundImage='url('+S.bi+')';c.style.backgroundSize='cover';c.style.backgroundPosition='center';}
+  else{c.style.background=S.bc;c.style.backgroundImage='';}
+
+  // Logo
+  if(S.logo){logoWrap.innerHTML='<img src="'+S.logo+'" style="max-height:'+S.lh+'px;max-width:'+S.lw+'px;object-fit:contain">';}
+  else{logoWrap.innerHTML='<div class="lp-logo-wp" id="lp-logo-wp">W</div>';}
+
+  // RTL/Align
+  var dir=S.rtl?'rtl':'ltr';
+  lpi.style.direction=dir;form.style.direction=dir;
+  form.style.textAlign=S.ta;
+
+  // Form
+  form.style.background=S.fb;form.style.width=S.fw+'px';form.style.maxWidth='90%';
+  form.style.borderRadius=S.fr+'px';form.style.boxShadow='0 8px 28px rgba(0,0,0,0.16)';
+
+  // Labels
+  form.querySelectorAll('label').forEach(function(l){l.style.color=S.lc;l.style.textAlign=S.ta;});
+
+  // Inputs
+  form.querySelectorAll('input[type=text],input[type=password]').forEach(function(i){
+    i.style.borderColor=S.ib;i.style.borderRadius='3px';i.style.direction=dir;i.style.textAlign=S.ta;
+    i.onfocus=function(){this.style.borderColor=S.ifc;this.style.boxShadow='0 0 0 1px '+S.ifc;};
+    i.onblur=function(){this.style.borderColor=S.ib;this.style.boxShadow='none';};
+  });
+
+  // Button
+  var sub=document.getElementById('lp-sub');
+  sub.style.background=S.bb;sub.style.color=S.bt;sub.style.borderRadius=S.br+'px';
+  sub.style.border='1px solid '+S.bb;sub.textContent=S.lb||'Log In';
+
+  // Links
+  ['lp-la','lp-lb'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.color=S.lk;});
+
+  // Welcome
+  if(S.wm){wm.style.display='block';wm.textContent=S.wm;wm.style.color=S.wc;wm.style.fontSize=(S.ws||20)+'px';wm.style.direction=dir;wm.style.textAlign=S.rtl?'right':'center';}
+  else{wm.style.display='none';}
+
+  // Field labels
+  document.getElementById('lp-lu').textContent=S.lu||'Username or Email Address';
+  document.getElementById('lp-lp').textContent=S.lp||'Password';
+  document.getElementById('lp-rml').textContent=S.lr||(S.rtl?'تذكرني':'Remember Me');
+
+  // Footer text + links
+  document.getElementById('lp-ft').textContent=S.ft||'';
+  document.getElementById('lp-ft').style.color=S.lk;
+  if(S.rtl){document.getElementById('lp-la').textContent='نسيت كلمة المرور؟';document.getElementById('lp-lb').textContent='العودة للموقع →';}
+  else{document.getElementById('lp-la').textContent='Lost your password?';document.getElementById('lp-lb').textContent='← Back to site';}
+}
+
+/* ─── APPLY ALL ─── */
+function applyAll(){readForm();updateBgPanels();renderPreview();}
+function updateBgPanels(){
+  document.getElementById('s-color').style.display=S.bg==='color'?'block':'none';
+  document.getElementById('s-grad').style.display=S.bg==='gradient'?'block':'none';
+  document.getElementById('s-img').style.display=S.bg==='image'?'block':'none';
+}
+
+/* ─── COLOR SYNC ─── */
+function csync(id){var e=document.getElementById(id),et=document.getElementById(id+'_t');if(e&&et)et.value=e.value;applyAll();}
+function ctsync(id){var et=document.getElementById(id+'_t'),e=document.getElementById(id);if(et&&e&&/^#[0-9a-fA-F]{3,8}$/.test(et.value))e.value=et.value;applyAll();}
+
+/* ─── LANGUAGE ─── */
+function applyLang(lang){
+  var map={
+    en:{rtl:false,wm:'',lu:'',lp:'',lb:'',lr:'',tpl:'minimal'},
+    ar:{rtl:true, wm:'مرحباً بك — الرجاء تسجيل الدخول',lu:'اسم المستخدم أو البريد الإلكتروني',lp:'كلمة المرور',lb:'تسجيل الدخول',lr:'تذكرني',tpl:'arabic_dark'},
+    es:{rtl:false,wm:'Bienvenido — Inicia sesión',lu:'Usuario o correo electrónico',lp:'Contraseña',lb:'Iniciar sesión',lr:'Recuérdame',tpl:'spanish'},
+    fr:{rtl:false,wm:'Bienvenue — Veuillez vous connecter',lu:'Identifiant ou e-mail',lp:'Mot de passe',lb:'Se connecter',lr:'Se souvenir de moi',tpl:'french'},
+    de:{rtl:false,wm:'Willkommen — Bitte anmelden',lu:'Benutzername oder E-Mail',lp:'Passwort',lb:'Anmelden',lr:'Angemeldet bleiben',tpl:'german'},
+  };
+  var l=map[lang];if(!l)return;
+  applyTpl(l.tpl);
+}
+
+/* ─── TABS ─── */
+document.getElementById('tb').addEventListener('click',function(e){
+  var b=e.target.closest('.tab');if(!b)return;
+  var t=b.dataset.t;
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.pane').forEach(function(x){x.classList.remove('on');});
+  b.classList.add('on');
+  var p=document.getElementById('pane-'+t);if(p)p.classList.add('on');
+});
+
+/* ─── SAVE / RESET ─── */
+function saveSettings(){var m=document.getElementById('save-msg');m.classList.add('on');setTimeout(function(){m.classList.remove('on');},2500);}
+function resetAll(){if(confirm('Reset to default settings?'))applyTpl('minimal');}
+
+/* ─── BG TYPE RADIO ─── */
+document.querySelectorAll('input[name="bg_type"]').forEach(function(r){
+  r.addEventListener('change',function(){S.bg=this.value;updateBgPanels();applyAll();});
+});
+
+/* ─── INIT ─── */
+buildGrid();
+applyTpl('minimal');
+</script>
+</body>
+</html>
